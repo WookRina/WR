@@ -20,16 +20,15 @@ document.addEventListener('DOMContentLoaded', () => {
             { title: 'KARINA FOR LOVE - lucky Karina', src: 'lucky Karina.WAV' },
         ],
         '2': [
-            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song1.mp3' },
-            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song2.mp3' },
-            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song3.mp3' },
-            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song4.mp3' },
-            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song5.mp3' },
-            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song6.mp3' },
-            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song7.mp3' },
-            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song8.mp3' },
-            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song9.mp3' },
-            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song10.mp3' },
+            { title: 'Crush', src: 'Crush.MP3' },
+            { title: 'Don\'t Cry', src: 'Don\'t Cry.MP3' },
+            { title: 'Down', src: 'Down.MP3' },
+            { title: 'Game Over', src: 'Game Over.MP3' },
+            { title: 'I 🖤 U', src: 'I 🖤 U.MP3' },
+            { title: 'Inertia', src: 'Inertia.MP3' },
+            { title: 'Salt Air', src: 'Salt Air.MP3' },
+            { title: 'Thermal', src: 'Thermal.MP3' },
+            { title: 'Unlike Amateur ！', src: 'Unlike Amateur ！.MP3' },
         ]
     };
 
@@ -68,89 +67,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loadSong(index, autoplay = true) {
         songTitleElement.classList.add('fade-out');
-        
-        // 显示加载状态
-        songTitleElement.textContent = '加载中...';
-        playPauseBtn.textContent = '⏳';
-        playPauseBtn.disabled = true;
-        
         setTimeout(() => {
             currentSongIndex = index;
             const song = albums[currentAlbumId][currentSongIndex];
-            
-            // 设置音频预加载
-            audioPlayer.preload = 'auto';
+            songTitleElement.textContent = song.title;
             audioPlayer.src = song.src;
             
-            // 添加加载事件监听
-            audioPlayer.addEventListener('loadstart', () => {
-                console.log('开始加载音频文件');
-            });
-            
-            audioPlayer.addEventListener('canplay', () => {
-                console.log('音频可以开始播放');
-                songTitleElement.textContent = song.title;
-                playPauseBtn.disabled = false;
-                playPauseBtn.textContent = '▶';
-                songTitleElement.classList.remove('fade-out');
-                
-                if (autoplay) {
-                    playSong();
-                }
-            });
-            
-            audioPlayer.addEventListener('canplaythrough', () => {
-                console.log('音频完全加载完成');
-            });
-            
-            // 添加音频加载错误处理
+            // 简单的错误处理
             audioPlayer.onerror = function() {
                 console.error('音频文件加载失败:', song.src);
                 songTitleElement.textContent = '文件加载失败 - ' + song.title;
-                playPauseBtn.disabled = false;
-                playPauseBtn.textContent = '▶';
-                songTitleElement.classList.remove('fade-out');
             };
             
-            // 添加加载超时处理
-            const loadTimeout = setTimeout(() => {
-                if (audioPlayer.readyState < 3) {
-                    songTitleElement.textContent = '加载超时 - ' + song.title;
-                    playPauseBtn.disabled = false;
-                    playPauseBtn.textContent = '▶';
-                }
-            }, 10000); // 10秒超时
-            
-            audioPlayer.addEventListener('canplay', () => {
-                clearTimeout(loadTimeout);
-            });
-            
             updatePlaylistUI();
+            songTitleElement.classList.remove('fade-out');
+            if (autoplay) {
+                playSong();
+            }
         }, 400);
     }
 
     function playSong() {
-        // 检查音频是否准备就绪
-        if (audioPlayer.readyState < 2) {
-            songTitleElement.textContent = '正在缓冲...';
-            playPauseBtn.textContent = '⏳';
-            
-            // 等待音频准备就绪
-            audioPlayer.addEventListener('canplay', function onCanPlay() {
-                audioPlayer.removeEventListener('canplay', onCanPlay);
-                isPlaying = true;
-                playPauseBtn.textContent = '❚❚';
-                songTitleElement.textContent = albums[currentAlbumId][currentSongIndex].title;
-                audioPlayer.play().catch(error => {
-                    console.error("播放失败:", error);
-                    songTitleElement.textContent = '播放失败 - ' + albums[currentAlbumId][currentSongIndex].title;
-                    isPlaying = false;
-                    playPauseBtn.textContent = '▶';
-                });
-            });
-            return;
-        }
-        
         isPlaying = true;
         playPauseBtn.textContent = '❚❚';
         audioPlayer.play().catch(error => {
@@ -303,30 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     audioPlayer.volume = volumeSlider.value;
 });
 
-// 在事件监听部分添加
-audioPlayer.addEventListener('progress', () => {
-    if (audioPlayer.buffered.length > 0) {
-        const bufferedEnd = audioPlayer.buffered.end(audioPlayer.buffered.length - 1);
-        const duration = audioPlayer.duration;
-        if (duration > 0) {
-            const bufferedPercent = (bufferedEnd / duration) * 100;
-            // 可以在这里更新缓冲进度显示
-            console.log(`缓冲进度: ${bufferedPercent.toFixed(1)}%`);
-        }
-    }
-});
-
-// 添加等待事件监听
-audioPlayer.addEventListener('waiting', () => {
-    console.log('音频缓冲中...');
-    if (isPlaying) {
-        songTitleElement.textContent = '缓冲中... - ' + albums[currentAlbumId][currentSongIndex].title;
-    }
-});
-
-audioPlayer.addEventListener('playing', () => {
-    console.log('音频开始播放');
-    if (isPlaying) {
-        songTitleElement.textContent = albums[currentAlbumId][currentSongIndex].title;
-    }
-});
+// 删除这些重复的事件监听器
+// audioPlayer.addEventListener('progress', () => { ... });
+// audioPlayer.addEventListener('waiting', () => { ... });
+// audioPlayer.addEventListener('playing', () => { ... });
