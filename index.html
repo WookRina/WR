@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>柳絮WILLOW的世界</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>柳絮WILLOW的世界</h1>
+        </header>
+
+        <div class="album-selection">
+            <button class="album-btn active" data-album="1">KARINA FOR LOVE</button>
+            <button class="album-btn" data-album="2">COMING SOON</button>
+        </div>
+
+        <main class="content">
+            <div class="player-section">
+                <div class="player">
+                    <div id="song-title">歌名</div>
+                    <div class="controls">
+                        <button id="prev-btn">⏮</button>
+                        <button id="play-pause-btn">▶</button>
+                        <button id="next-btn">⏭</button>
+                        <button id="mode-btn">顺序</button>
+                        <div class="volume-container">
+                            <span id="volume-icon">音量</span>
+                            <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="1">
+                        </div>
+                    </div>
+                    <div class="progress-container">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <audio id="audio-player"></audio>
+                </div>
+            </div>
+            <div class="playlist-section">
+                <h2>歌曲选择列表</h2>
+                <ul id="playlist">
+                    <!-- Songs will be dynamically inserted here -->
+                </ul>
+            </div>
+        </main>
+
+        <div class="footer-sections">
+            <div class="creators-section">
+                <h2>优秀内容创作者</h2>
+                <nav class="creators-links">
+                    <a href="https://www.iesdouyin.com/share/user/MS4wLjABAAAAzZjuypzwUZXgKDBEl5XGLv3pIR3PNX5l2RVWLhRvjkJI1mmth2xWZNNEejtdTjZS?iid=MS4wLjABAAAAI8sdy4xruBTmxB91QPAg3VH3OfGvIpvE8ESXps0ZKPbNgg0eKri8JoSDp-EH3I64&with_sec_did=1&sec_uid=MS4wLjABAAAAzZjuypzwUZXgKDBEl5XGLv3pIR3PNX5l2RVWLhRvjkJI1mmth2xWZNNEejtdTjZS&from_ssr=1&from_aid=1128&u_code=ehj0c08f4f5mg3&did=MS4wLjABAAAApWxNnUN_du61KJ3sSwEUJPjFNviOlp6xJxLgOCbceO7mQik3bgo8cZz0A4b_nTbG&timestamp=1757922635&utm_source=copy&utm_campaign=client_share&utm_medium=android&app=aweme&life_share_ext=%7B%22life_share_id%22%3A%227c7e006c875f46af83a02820f01085b1%22%2C%22from_user_id%22%3A7447182711176348730%2C%22enter_from%22%3A%22others_homepage%22%2C%22personal_enter_page%22%3A%22chat_setting%22%2C%22personal_enter_method%22%3A%22%22%7D&ug_share_id=40092468843738121757922636747&activity_info=%7B%22social_author_id%22%3A%227541470356810417212%22%2C%22social_share_id%22%3A%227447182711176348730_1757922635683%22%2C%22social_share_time%22%3A%221757922635%22%2C%22social_share_user_id%22%3A%227447182711176348730%22%7D" target="_blank">UJ.mácdaa_</a>
+                    <a href="https://www.iesdouyin.com/share/user/MS4wLjABAAAABVRR1wncsO8SNgu5hOwsyp24MLWoDuKv8OLP29sIREBq34frdsEm60Qko0OsBk87?u_code=ehj0c08f4f5mg3&did=MS4wLjABAAAApWxNnUN_du61KJ3sSwEUJPjFNviOlp6xJxLgOCbceO7mQik3bgo8cZz0A4b_nTbG&iid=MS4wLjABAAAAI8sdy4xruBTmxB91QPAg3VH3OfGvIpvE8ESXps0ZKPbNgg0eKri8JoSDp-EH3I64&with_sec_did=1&sec_uid=MS4wLjABAAAABVRR1wncsO8SNgu5hOwsyp24MLWoDuKv8OLP29sIREBq34frdsEm60Qko0OsBk87&from_ssr=1&from_aid=1128&timestamp=1757922474&utm_source=copy&utm_campaign=client_share&utm_medium=android&app=aweme&life_share_ext=%7B%22life_share_id%22%3A%2202f186e234ab47b3b76c9821d2d763c7%22%2C%22from_user_id%22%3A7447182711176348730%2C%22enter_from%22%3A%22others_homepage%22%2C%22personal_enter_page%22%3A%22chat_setting%22%2C%22personal_enter_method%22%3A%22%22%7D&ug_share_id=40092468843738121757922476188&activity_info=%7B%22social_author_id%22%3A%223806981945833609%22%2C%22social_share_id%22%3A%227447182711176348730_1757922474860%22%2C%22social_share_time%22%3A%221757922474%22%2C%22social_share_user_id%22%3A%227447182711176348730%22%7D" target="_blank">素人</a>
+                    <a href="https://www.iesdouyin.com/share/user/MS4wLjABAAAAAunTPRXegtdNlgUeIyxldqR12kifobUROxti-ORxsngYKdou1A7hV1nKnpaHVkpi?iid=MS4wLjABAAAAI8sdy4xruBTmxB91QPAg3VH3OfGvIpvE8ESXps0ZKPbNgg0eKri8JoSDp-EH3I64&with_sec_did=1&sec_uid=MS4wLjABAAAAAunTPRXegtdNlgUeIyxldqR12kifobUROxti-ORxsngYKdou1A7hV1nKnpaHVkpi&from_ssr=1&from_aid=1128&u_code=ehj0c08f4f5mg3&did=MS4wLjABAAAApWxNnUN_du61KJ3sSwEUJPjFNviOlp6xJxLgOCbceO7mQik3bgo8cZz0A4b_nTbG&timestamp=1757922323&utm_source=copy&utm_campaign=client_share&utm_medium=android&app=aweme&life_share_ext=%7B%22life_share_id%22%3A%2287837565b1e34fd6a8f343a1b141bda5%22%2C%22from_user_id%22%3A7447182711176348730%2C%22enter_from%22%3A%22others_homepage%22%2C%22personal_enter_page%22%3A%22chat%22%2C%22personal_enter_method%22%3A%22%22%7D&ug_share_id=40092468843738121757922323889&activity_info=%7B%22social_author_id%22%3A%224065318685901676%22%2C%22social_share_id%22%3A%227447182711176348730_1757922323092%22%2C%22social_share_time%22%3A%221757922323%22%2C%22social_share_user_id%22%3A%227447182711176348730%22%7D" target="_blank">OLNY🌸</a>
+                </nav>
+            </div>
+            
+            <div class="social-section">
+                <h2>大吧指路</h2>
+                <nav class="social-links">
+                    <a href="https://www.iesdouyin.com/share/user/MS4wLjABAAAA9fPiPfiKYhONefNiHOwx6LQEuRu6r6UMT07v3y8dIXRwQcVoXem3j2AYLVabx63h?u_code=174ff1b8k&did=MS4wLjABAAAAWICIrgOiKl0zfdNHo7gHMqMpoSHzb1Zm0RQRpRaq8QrZtEsvuLF1IwLSXPHDbC4v&iid=MS4wLjABAAAAh_MYuy93CxH7wxV4s1os4PNWPtPDgLbmSV953b73F-x7ZhdOTvzBNvDKhQhMyH8v&with_sec_did=1&sec_uid=MS4wLjABAAAA9fPiPfiKYhONefNiHOwx6LQEuRu6r6UMT07v3y8dIXRwQcVoXem3j2AYLVabx63h&from_ssr=1&from_aid=1128&timestamp=1757919499&utm_source=copy&utm_campaign=client_share&utm_medium=android&app=aweme&life_share_ext=%7B%22life_share_id%22%3A%225d8bf89fc07b43d2b950be217cf55193%22%2C%22from_user_id%22%3A102837667916%2C%22enter_from%22%3A%22others_homepage%22%2C%22personal_enter_page%22%3A%22chat_group_member%22%2C%22personal_enter_method%22%3A%22%22%7D&ug_share_id=24172014857415451757919501278&activity_info=%7B%22social_author_id%22%3A%222333625816464923%22%2C%22social_share_id%22%3A%22102837667916_1757919499859%22%2C%22social_share_time%22%3A%221757919499%22%2C%22social_share_user_id%22%3A%22102837667916%22%7D" target="_blank">手柳弹</a>
+                    <a href="https://www.iesdouyin.com/share/user/MS4wLjABAAAAYXaSrHR8s7wNwAVdySW3oCNBeie0PYRYMg14axlJJBtna8LIzZtyfOzHHbFkGUnW?u_code=ehj0c08f4f5mg3&did=MS4wLjABAAAApWxNnUN_du61KJ3sSwEUJPjFNviOlp6xJxLgOCbceO7mQik3bgo8cZz0A4b_nTbG&iid=MS4wLjABAAAAI8sdy4xruBTmxB91QPAg3VH3OfGvIpvE8ESXps0ZKPbNgg0eKri8JoSDp-EH3I64&with_sec_did=1&sec_uid=MS4wLjABAAAAYXaSrHR8s7wNwAVdySW3oCNBeie0PYRYMg14axlJJBtna8LIzZtyfOzHHbFkGUnW&from_ssr=1&from_aid=1128&timestamp=1757919284&utm_source=copy&utm_campaign=client_share&utm_medium=android&app=aweme&life_share_ext=%7B%22life_share_id%22%3A%22a7f117de7a1a4ea790ce0a84b189399c%22%2C%22from_user_id%22%3A7447182711176348730%2C%22enter_from%22%3A%22others_homepage%22%2C%22personal_enter_page%22%3A%22chat%22%2C%22personal_enter_method%22%3A%22%22%7D&ug_share_id=40092468843738121757919285647&activity_info=%7B%22social_author_id%22%3A%223718985090087376%22%2C%22social_share_id%22%3A%227447182711176348730_1757919284337%22%2C%22social_share_time%22%3A%221757919284%22%2C%22social_share_user_id%22%3A%227447182711176348730%22%7D" target="_blank">旺宰柳奶_WookRina</a>
+                    <a href="https://www.iesdouyin.com/share/user/MS4wLjABAAAA1mMtdtQmPs3zOeGS6q7vZos82hOVkuq9eJzfmm2BZR3y154PqCFlV7EhT_MRpsyy?from_aid=1128&u_code=174ff1b8k&did=MS4wLjABAAAAWICIrgOiKl0zfdNHo7gHMqMpoSHzb1Zm0RQRpRaq8QrZtEsvuLF1IwLSXPHDbC4v&iid=MS4wLjABAAAAh_MYuy93CxH7wxV4s1os4PNWPtPDgLbmSV953b73F-x7ZhdOTvzBNvDKhQhMyH8v&with_sec_did=1&sec_uid=MS4wLjABAAAA1mMtdtQmPs3zOeGS6q7vZos82hOVkuq9eJzfmm2BZR3y154PqCFlV7EhT_MRpsyy&from_ssr=1&timestamp=1757919483&utm_source=copy&utm_campaign=client_share&utm_medium=android&app=aweme&life_share_ext=%7B%22life_share_id%22%3A%22d2197d0e390a4660b5b58e3bd881a3ac%22%2C%22from_user_id%22%3A102837667916%2C%22enter_from%22%3A%22others_homepage%22%2C%22personal_enter_page%22%3A%22chat%22%2C%22personal_enter_method%22%3A%22%22%7D&ug_share_id=24172014857415451757919484833&activity_info=%7B%22social_author_id%22%3A%227447182711176348730%22%2C%22social_share_id%22%3A%22102837667916_1757919483802%22%2C%22social_share_time%22%3A%221757919483%22%2C%22social_share_user_id%22%3A%22102837667916%22%7D" target="_blank">WKRIN</a>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
