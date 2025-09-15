@@ -14,10 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const albums = {
         '1': [
-            { title: 'KARINA FOR LOVE - like Karina [Cover by like jennie]', src: 'music/like Karina.WAV' },
-            { title: 'KARINA FOR LOVE - lively Karina', src: 'music/LIVELY.WAV' },
-            { title: 'KARINA FOR LOVE - love Karina', src: 'music/LOVE.WAV' },
-            { title: 'KARINA FOR LOVE - lucky Karina', src: 'music/lucky Karina.WAV' },
+            { title: 'KARINA FOR LOVE - like Karina [Cover by like jennie]', src: 'like Karina.WAV' },
+            { title: 'KARINA FOR LOVE - lively Karina', src: 'LIVELY.mp3' },
+            { title: 'KARINA FOR LOVE - love Karina', src: 'LOVE.mp3' },
+            { title: 'KARINA FOR LOVE - lucky Karina', src: 'lucky Karina.WAV' },
         ],
         '2': [
             { title: 'COMING SOON - COMING SOON', src: 'music/album2-song1.mp3' },
