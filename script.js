@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const albums = {
         '1': [
             { title: 'KARINA FOR LOVE - like Karina [Cover by like jennie]', src: 'like Karina.WAV' },
-            { title: 'KARINA FOR LOVE - lively Karina', src: 'LIVELY.mp3' },
-            { title: 'KARINA FOR LOVE - love Karina', src: 'LOVE.mp3' },
+            { title: 'KARINA FOR LOVE - lively Karina', src: 'LIVELY.MP3' },
+            { title: 'KARINA FOR LOVE - love Karina', src: 'LOVE.MP3' },
             { title: 'KARINA FOR LOVE - lucky Karina', src: 'lucky Karina.WAV' },
         ],
         '2': [
@@ -73,6 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const song = albums[currentAlbumId][currentSongIndex];
             songTitleElement.textContent = song.title;
             audioPlayer.src = song.src;
+            
+            // 添加音频加载错误处理
+            audioPlayer.onerror = function() {
+                console.error('音频文件加载失败:', song.src);
+                songTitleElement.textContent = '文件加载失败 - ' + song.title;
+            };
+            
             updatePlaylistUI();
             songTitleElement.classList.remove('fade-out');
             if (autoplay) {
@@ -84,7 +91,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function playSong() {
         isPlaying = true;
         playPauseBtn.textContent = '❚❚';
-        audioPlayer.play().catch(error => console.error("Playback failed:", error));
+        audioPlayer.play().catch(error => {
+            console.error("播放失败:", error);
+            // 显示用户友好的错误信息
+            songTitleElement.textContent = '播放失败 - ' + albums[currentAlbumId][currentSongIndex].title;
+            isPlaying = false;
+            playPauseBtn.textContent = '▶';
+        });
     }
 
     function pauseSong() {
