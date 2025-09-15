@@ -68,32 +68,93 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loadSong(index, autoplay = true) {
         songTitleElement.classList.add('fade-out');
+        
+        // 显示加载状态
+        songTitleElement.textContent = '加载中...';
+        playPauseBtn.textContent = '⏳';
+        playPauseBtn.disabled = true;
+        
         setTimeout(() => {
             currentSongIndex = index;
             const song = albums[currentAlbumId][currentSongIndex];
-            songTitleElement.textContent = song.title;
+            
+            // 设置音频预加载
+            audioPlayer.preload = 'auto';
             audioPlayer.src = song.src;
+            
+            // 添加加载事件监听
+            audioPlayer.addEventListener('loadstart', () => {
+                console.log('开始加载音频文件');
+            });
+            
+            audioPlayer.addEventListener('canplay', () => {
+                console.log('音频可以开始播放');
+                songTitleElement.textContent = song.title;
+                playPauseBtn.disabled = false;
+                playPauseBtn.textContent = '▶';
+                songTitleElement.classList.remove('fade-out');
+                
+                if (autoplay) {
+                    playSong();
+                }
+            });
+            
+            audioPlayer.addEventListener('canplaythrough', () => {
+                console.log('音频完全加载完成');
+            });
             
             // 添加音频加载错误处理
             audioPlayer.onerror = function() {
                 console.error('音频文件加载失败:', song.src);
                 songTitleElement.textContent = '文件加载失败 - ' + song.title;
+                playPauseBtn.disabled = false;
+                playPauseBtn.textContent = '▶';
+                songTitleElement.classList.remove('fade-out');
             };
             
+            // 添加加载超时处理
+            const loadTimeout = setTimeout(() => {
+                if (audioPlayer.readyState < 3) {
+                    songTitleElement.textContent = '加载超时 - ' + song.title;
+                    playPauseBtn.disabled = false;
+                    playPauseBtn.textContent = '▶';
+                }
+            }, 10000); // 10秒超时
+            
+            audioPlayer.addEventListener('canplay', () => {
+                clearTimeout(loadTimeout);
+            });
+            
             updatePlaylistUI();
-            songTitleElement.classList.remove('fade-out');
-            if (autoplay) {
-                playSong();
-            }
         }, 400);
     }
 
     function playSong() {
+        // 检查音频是否准备就绪
+        if (audioPlayer.readyState < 2) {
+            songTitleElement.textContent = '正在缓冲...';
+            playPauseBtn.textContent = '⏳';
+            
+            // 等待音频准备就绪
+            audioPlayer.addEventListener('canplay', function onCanPlay() {
+                audioPlayer.removeEventListener('canplay', onCanPlay);
+                isPlaying = true;
+                playPauseBtn.textContent = '❚❚';
+                songTitleElement.textContent = albums[currentAlbumId][currentSongIndex].title;
+                audioPlayer.play().catch(error => {
+                    console.error("播放失败:", error);
+                    songTitleElement.textContent = '播放失败 - ' + albums[currentAlbumId][currentSongIndex].title;
+                    isPlaying = false;
+                    playPauseBtn.textContent = '▶';
+                });
+            });
+            return;
+        }
+        
         isPlaying = true;
         playPauseBtn.textContent = '❚❚';
         audioPlayer.play().catch(error => {
             console.error("播放失败:", error);
-            // 显示用户友好的错误信息
             songTitleElement.textContent = '播放失败 - ' + albums[currentAlbumId][currentSongIndex].title;
             isPlaying = false;
             playPauseBtn.textContent = '▶';
@@ -240,4 +301,32 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初始化
     loadAlbum(currentAlbumId);
     audioPlayer.volume = volumeSlider.value;
+});
+
+// 在事件监听部分添加
+audioPlayer.addEventListener('progress', () => {
+    if (audioPlayer.buffered.length > 0) {
+        const bufferedEnd = audioPlayer.buffered.end(audioPlayer.buffered.length - 1);
+        const duration = audioPlayer.duration;
+        if (duration > 0) {
+            const bufferedPercent = (bufferedEnd / duration) * 100;
+            // 可以在这里更新缓冲进度显示
+            console.log(`缓冲进度: ${bufferedPercent.toFixed(1)}%`);
+        }
+    }
+});
+
+// 添加等待事件监听
+audioPlayer.addEventListener('waiting', () => {
+    console.log('音频缓冲中...');
+    if (isPlaying) {
+        songTitleElement.textContent = '缓冲中... - ' + albums[currentAlbumId][currentSongIndex].title;
+    }
+});
+
+audioPlayer.addEventListener('playing', () => {
+    console.log('音频开始播放');
+    if (isPlaying) {
+        songTitleElement.textContent = albums[currentAlbumId][currentSongIndex].title;
+    }
 });
