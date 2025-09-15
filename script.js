@@ -71,31 +71,41 @@ document.addEventListener('DOMContentLoaded', () => {
             currentSongIndex = index;
             const song = albums[currentAlbumId][currentSongIndex];
             songTitleElement.textContent = song.title;
-            audioPlayer.src = song.src;
             
-            // 简单的错误处理
-            audioPlayer.onerror = function() {
-                console.error('音频文件加载失败:', song.src);
-                songTitleElement.textContent = '文件加载失败 - ' + song.title;
-            };
+            // 直接设置音频源，不预加载
+            audioPlayer.src = song.src;
+            audioPlayer.preload = 'none'; // 关闭预加载
             
             updatePlaylistUI();
             songTitleElement.classList.remove('fade-out');
+            
             if (autoplay) {
                 playSong();
             }
-        }, 400);
+        }, 200); // 减少延迟时间
     }
 
     function playSong() {
         isPlaying = true;
         playPauseBtn.textContent = '❚❚';
-        audioPlayer.play().catch(error => {
-            console.error("播放失败:", error);
-            songTitleElement.textContent = '播放失败 - ' + albums[currentAlbumId][currentSongIndex].title;
-            isPlaying = false;
-            playPauseBtn.textContent = '▶';
-        });
+        
+        // 直接播放，让浏览器处理缓冲
+        const playPromise = audioPlayer.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.error("播放失败:", error);
+                isPlaying = false;
+                playPauseBtn.textContent = '▶';
+                
+                // 如果是因为用户交互问题，提示用户点击播放
+                if (error.name === 'NotAllowedError') {
+                    songTitleElement.textContent = '请点击播放按钮 - ' + albums[currentAlbumId][currentSongIndex].title;
+                } else {
+                    songTitleElement.textContent = '播放失败 - ' + albums[currentAlbumId][currentSongIndex].title;
+                }
+            });
+        }
     }
 
     function pauseSong() {
@@ -244,3 +254,25 @@ document.addEventListener('DOMContentLoaded', () => {
 // audioPlayer.addEventListener('progress', () => { ... });
 // audioPlayer.addEventListener('waiting', () => { ... });
 // audioPlayer.addEventListener('playing', () => { ... });
+// 在现有事件监听器部分添加
+audioPlayer.addEventListener('loadstart', () => {
+    if (isPlaying) {
+        songTitleElement.textContent = '加载中... - ' + albums[currentAlbumId][currentSongIndex].title;
+    }
+});
+
+audioPlayer.addEventListener('canplay', () => {
+    if (isPlaying) {
+        songTitleElement.textContent = albums[currentAlbumId][currentSongIndex].title;
+    }
+});
+
+audioPlayer.addEventListener('waiting', () => {
+    if (isPlaying) {
+        songTitleElement.textContent = '缓冲中... - ' + albums[currentAlbumId][currentSongIndex].title;
+    }
+});
+
+audioPlayer.addEventListener('playing', () => {
+    songTitleElement.textContent = albums[currentAlbumId][currentSongIndex].title;
+});
