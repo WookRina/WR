@@ -20,15 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
             { title: 'KARINA FOR LOVE - lucky Karina', src: 'lucky Karina.WAV' },
         ],
         '2': [
-            { title: 'Crush', src: 'Crush.MP3' },
-            { title: 'Don\'t Cry', src: 'Don\'t Cry.MP3' },
-            { title: 'Down', src: 'Down.MP3' },
-            { title: 'Game Over', src: 'Game Over.MP3' },
-            { title: 'I 🖤 U', src: 'I 🖤 U.MP3' },
-            { title: 'Inertia', src: 'Inertia.MP3' },
-            { title: 'Salt Air', src: 'Salt Air.MP3' },
-            { title: 'Thermal', src: 'Thermal.MP3' },
-            { title: 'Unlike Amateur ！', src: 'Unlike Amateur ！.MP3' },
+            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song1.mp3' },
+            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song2.mp3' },
+            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song3.mp3' },
+            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song4.mp3' },
+            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song5.mp3' },
+            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song6.mp3' },
+            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song7.mp3' },
+            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song8.mp3' },
+            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song9.mp3' },
+            { title: 'COMING SOON - COMING SOON', src: 'music/album2-song10.mp3' },
         ]
     };
 
